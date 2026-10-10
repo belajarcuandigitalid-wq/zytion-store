@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<meta name="description" content="ZYTION — Your Style. Your City. Your Rules.">
+<title>ZYTION — Official Store</title>
+<style>
+:root{--bg:#f6f6f4;--ink:#111;--lime:#c6ff3d;--muted:#777}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#111;color:white;padding:17px 5%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-size:25px;font-weight:900;letter-spacing:4px}
+.logo span{color:var(--lime)}
+.cart{border:1px solid #555;background:none;color:white;padding:10px 14px;border-radius:30px}
+.hero{background:#111;color:white;padding:55px 6% 50px;min-height:320px;display:flex;flex-direction:column;justify-content:center}
+.tag{color:var(--lime);font-size:11px;letter-spacing:3px;font-weight:bold}
+.hero h1{font-size:clamp(42px,10vw,75px);line-height:.95;letter-spacing:-3px;margin:20px 0}
+.hero h1 span{color:var(--lime)}
+.hero p{color:#ccc;line-height:1.7;max-width:350px;font-size:14px}
+.btn{display:inline-block;background:var(--lime);color:#111;border:0;border-radius:3px;padding:14px 20px;font-weight:bold;text-decoration:none;cursor:pointer;margin-top:12px;width:max-content}
+section{padding:35px 5%}
+.heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.heading h2{font-size:23px;letter-spacing:-1px}
+.heading small{color:var(--muted)}
+.search{width:100%;padding:14px;border:1px solid #ddd;border-radius:5px;font-size:14px;margin:12px 0 20px;background:white}
+.filters{display:flex;gap:8px;overflow:auto;padding-bottom:15px}
+.filter{padding:9px 15px;border:1px solid #ddd;background:white;border-radius:30px;white-space:nowrap}
+.filter.active{background:#111;color:white}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{background:white;border-radius:5px;overflow:hidden;border:1px solid #eee}
+.product-art{height:175px;display:flex;align-items:center;justify-content:center;background:#e7e7e3;position:relative;overflow:hidden}
+.product-art.dark{background:#202020;color:white}
+.artword{font-size:32px;font-weight:900;letter-spacing:-2px;transform:rotate(-10deg)}
+.sticker{position:absolute;top:9px;left:9px;background:var(--lime);padding:5px 7px;font-size:9px;font-weight:bold}
+.info{padding:12px}
+.info h3{font-size:14px;margin:0 0 7px}
+.price{font-weight:bold;font-size:14px}
+.note{font-size:11px;color:var(--muted);margin:7px 0}
+.add{width:100%;background:#111;color:white;border:0;padding:11px;margin-top:9px;border-radius:3px;font-weight:bold}
+.add:active,.btn:active{opacity:.7}
+.cartpanel{background:white;padding:20px;border:1px solid #ddd;border-radius:5px;margin-top:18px}
+.cartline{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eee;padding:12px 0;font-size:13px}
+.cartline button{border:0;background:#eee;padding:4px 8px}
+.total{font-weight:bold;display:flex;justify-content:space-between;margin-top:18px}
+label{display:block;font-size:12px;font-weight:bold;margin-top:13px}
+.forminput{width:100%;padding:12px;border:1px solid #ddd;border-radius:4px;margin-top:6px;font:inherit}
+.checkout{width:100%;padding:14px;background:var(--lime);border:0;font-weight:bold;margin-top:15px}
+.disclaimer{font-size:11px;color:#777;line-height:1.6}
+footer{background:#111;color:white;padding:30px 5%;font-size:12px;line-height:1.8}
+footer .logo{margin-bottom:12px}
+.empty{font-size:13px;color:#777}
+@media(min-width:700px){.products{grid-template-columns:repeat(4,minmax(0,1fr))}.product-art{height:230px}.hero{padding-left:10%;min-height:400px}section{padding-left:10%;padding-right:10%}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">ZYTI<span>ON</span></div>
+<button class="cart" onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛍 Keranjang <b id="count">0</b></button>
+</header>
+<div class="hero">
+<div class="tag">YOUR NEXT EVERYDAY ESSENTIAL</div>
+<h1>YOUR STYLE.<br>YOUR <span>RULES.</span></h1>
+<p>Temukan gaya yang mewakili diri lu. Simpel, berani, dan siap menemani setiap langkah.</p>
+<a href="#shop" class="btn">JELAJAHI KOLEKSI ↗</a>
+</div>
+<section id="shop">
+<div class="heading"><h2>THE COLLECTION</h2><small>DROP 001 / DEMO</small></div>
+<input id="search" class="search" placeholder="Cari produk..." oninput="render()">
+<div class="filters">
+<button class="filter active" onclick="setFilter('Semua',this)">Semua</button>
+<button class="filter" onclick="setFilter('Atasan',this)">Atasan</button>
+<button class="filter" onclick="setFilter('Aksesori',this)">Aksesori</button>
+</div>
+<div id="products" class="products"></div>
+<div id="cart" class="cartpanel">
+<div class="heading"><h2>KERANJANG LU</h2><small id="cartnote">0 produk</small></div>
+<div id="cartitems" class="empty">Keranjang masih kosong.</div>
+<div class="total"><span>Total</span><span id="total">Rp0</span></div>
+<p class="disclaimer">Ini demo frontend. Pesanan belum disimpan ke database dan pembayaran belum terhubung.</p>
+<form id="checkoutform">
+<label>Nama lengkap</label><input class="forminput" id="name" required placeholder="Nama penerima">
+<label>Nomor WhatsApp</label><input class="forminput" id="phone" type="tel" required placeholder="08xxxxxxxxxx">
+<label>Alamat pengiriman</label><textarea class="forminput" id="address" required placeholder="Alamat lengkap" rows="3"></textarea>
+<button class="checkout" type="submit">BUAT PESANAN DEMO</button>
+</form>
+<p id="result" class="disclaimer"></p>
+</div>
+</section>
+<section>
+<div class="heading"><h2>ADMIN PREVIEW</h2><small>MODE DEMO</small></div>
+<p class="disclaimer">Bagian ini hanya pratinjau. Belum ada login admin, database, atau manajemen pesanan sungguhan. Itu perlu dikonfigurasi pada tahap berikutnya.</p>
+</section>
+<footer><div class="logo">ZYTI<span style="color:#c6ff3d">ON</span></div>YOUR STYLE. YOUR CITY. YOUR RULES.<br><br>© 2026 ZYTION. Built for your everyday.</footer>
+<script>
+const products=[
+{id:1,name:"Essential Tee — Black",category:"Atasan",price:129000,art:"ZYTION",dark:true},
+{id:2,name:"Essential Tee — White",category:"Atasan",price:129000,art:"ESSENTIAL",dark:false},
+{id:3,name:"City Oversized Tee",category:"Atasan",price:159000,art:"YOUR CITY",dark:true},
+{id:4,name:"Daily Cap",category:"Aksesori",price:79000,art:"DAILY",dark:false},
+{id:5,name:"Street Tote Bag",category:"Aksesori",price:69000,art:"STREET",dark:true},
+{id:6,name:"Urban Shirt",category:"Atasan",price:189000,art:"URBAN",dark:false}
+];
+let cart=[],filter="Semua";
+const rupiah=n=>"Rp"+n.toLocaleString("id-ID");
+function setFilter(v,el){filter=v;document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));el.classList.add("active");render()}
+function render(){
+let q=document.getElementById("search").value.toLowerCase();
+document.getElementById("products").innerHTML=products.filter(p=>(filter==="Semua"||p.category===filter)&&p.name.toLowerCase().includes(q)).map(p=>`<article class="product"><div class="product-art ${p.dark?'dark':''}"><span class="sticker">ZYTION DROP 001</span><span class="artword">${p.art}</span></div><div class="info"><h3>${p.name}</h3><div class="price">${rupiah(p.price)}</div><div class="note">Demo produk · Harga contoh</div><button class="add" onclick="add(${p.id})">+ Tambah</button></div></article>`).join("")||'<p class="empty">Produk tidak ditemukan.</p>';
+renderCart()
+}
+function add(id){cart.push(products.find(p=>p.id===id));renderCart()}
+function removeItem(i){cart.splice(i,1);renderCart()}
+function renderCart(){
+document.getElementById("count").textContent=cart.length;
+document.getElementById("cartnote").textContent=cart.length+" produk";
+document.getElementById("cartitems").innerHTML=cart.length?cart.map((p,i)=>`<div class="cartline"><span>${p.name}<br>${rupiah(p.price)}</span><button onclick="removeItem(${i})">Hapus</button></div>`).join(""):"Keranjang masih kosong.";
+document.getElementById("total").textContent=rupiah(cart.reduce((s,p)=>s+p.price,0))
+}
+document.getElementById("checkoutform").addEventListener("submit",e=>{
+e.preventDefault();
+if(!cart.length){document.getElementById("result").textContent="Tambahkan produk ke keranjang terlebih dahulu.";return}
+const order="ZYT-"+Date.now().toString().slice(-8);
+document.getElementById("result").textContent="Demo berhasil dibuat di perangkat ini. Nomor referensi: "+order+". Ini BUKAN pesanan sungguhan; data belum dikirim ke toko atau database.";
+});
+render();
+</script>
+</body>
+</html>
